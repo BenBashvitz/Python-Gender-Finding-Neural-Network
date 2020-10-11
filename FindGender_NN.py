@@ -92,7 +92,7 @@ all_y_trues = np.array([
 
 
 # Train our neural network!
-network = OurNeuralNetwork(2)
+network = OurNeuralNetwork(data.shape[1])
 network.train(data, all_y_trues)
 # Test the neural network
 

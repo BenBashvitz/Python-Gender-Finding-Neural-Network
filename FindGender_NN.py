@@ -20,17 +20,7 @@ def mse_loss(y_true, y_pred):
   return ((y_true - y_pred.T) ** 2).mean()
 
 class OurNeuralNetwork:
-  '''
-  A neural network with:
-    - 2 inputs
-    - a hidden layer with 2 neurons (h1, h2)
-    - an output layer with 1 neuron (o1)
-
-  *** DISCLAIMER ***:
-  The code below is intended to be simple and educational, NOT optimal.
-  Real neural net code looks nothing like this. DO NOT use this code.
-  Instead, read/run it to understand how this specific network works.
-  '''
+  
   def __init__(self, params):
     # Weights
     self.hidden_w = np.random.random((params, 2))
@@ -66,14 +56,14 @@ class OurNeuralNetwork:
         o = sigmoid(sum_o)
         y_pred = o
 
-        # --- Calculate partial derivatives.
-        # --- Naming: d_L_d_w1 represents "partial L / partial w1"
+        #BackPropagation
         error = y_true - y_pred
         d_y_pred = error * deriv_sigmoid(y_pred)
         
         hidden_error = np.dot(d_y_pred, self.output_w.T)
         d_hidden = hidden_error * deriv_sigmoid(y_hidden)
         
+        #Updating weights and biases 
         self.hidden_b += np.sum(d_hidden)*learn_rate
         self.output_b += np.sum(d_y_pred)*learn_rate
         self.hidden_w += np.dot(x, d_hidden.T)*learn_rate
@@ -105,6 +95,7 @@ all_y_trues = np.array([
 network = OurNeuralNetwork(2)
 network.train(data, all_y_trues)
 # Test the neural network
+
 female = np.array([-7, -3]) # 128 pounds, 63 inches
 male = np.array([20, 2])  # 155 pounds, 68 inches
 print(network.feedforward(female)) #needs to output a value close to 1

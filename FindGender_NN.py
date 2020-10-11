@@ -104,9 +104,10 @@ all_y_trues = np.array([
 # Train our neural network!
 network = OurNeuralNetwork(2)
 network.train(data, all_y_trues)
+# Test the neural network
 female = np.array([-7, -3]) # 128 pounds, 63 inches
 male = np.array([20, 2])  # 155 pounds, 68 inches
-print(network.feedforward(female))
-print(network.feedforward(male))
-print(network.feedforward(data[2]))
+print(network.feedforward(female)) #needs to output a value close to 1
+print(network.feedforward(male)) #needs to output a value close to 0
+print(network.feedforward(data[2])) #needs to output a value close to 1
 

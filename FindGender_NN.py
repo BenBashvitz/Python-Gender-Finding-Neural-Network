@@ -3,7 +3,7 @@
 בן בשביץ
 יב 4
 '''
-
+import matplotlib.pyplot as plt
 import numpy as np
 
 def sigmoid(x):
@@ -36,7 +36,7 @@ class OurNeuralNetwork:
     o = sigmoid((np.dot(h, self.output_w) + self.output_b))
     return o
 
-  def train(self, data, all_y_trues):
+  def train(self, data, all_y_trues, x_plot_val, y_plot_val):
     '''
     - data is a (n x 2) numpy array, n = # of samples in the dataset.
     - all_y_trues is a numpy array with n elements.
@@ -74,7 +74,8 @@ class OurNeuralNetwork:
       if epoch % 10 == 0:
         y_preds = np.apply_along_axis(self.feedforward, 1, data)
         loss = mse_loss(all_y_trues, y_preds)
-        print("Epoch %d loss: %.3f" % (epoch, loss))
+        x_plot_val.append(epoch)
+        y_plot_val.append(loss)
     
 # Define dataset
 data = np.array([
@@ -90,15 +91,26 @@ all_y_trues = np.array([
   0, # Charlie
 ])
 
+x_plot_val = []
+y_plot_val = []
 
 # Train our neural network!
 network = OurNeuralNetwork(data.shape[1])
-network.train(data, all_y_trues)
-# Test the neural network
+network.train(data, all_y_trues, x_plot_val, y_plot_val)
 
+#graph of loss as a function of the epochs
+
+plt.plot(x_plot_val,y_plot_val)
+plt.xlabel('epochs')
+plt.ylabel('loss')
+plt.show()
+
+
+# Test the neural network
 female = np.array([-7, -3]) # 128 pounds, 63 inches
 male = np.array([20, 2])  # 155 pounds, 68 inches
 print(network.feedforward(female)) #needs to output a value close to 1
 print(network.feedforward(male)) #needs to output a value close to 0
 print(network.feedforward(data[2])) #needs to output a value close to 1
+
 
